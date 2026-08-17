@@ -15,7 +15,7 @@ export default function CommentsSubmission() {
     setStatus('idle');
 
     try {
-      const response = await fetch('https://partnerapi.edst.com/api/marketplace/sendkmbizdevcommentpost', {
+      const response = await fetch('https://marketplace-api.edst.com/api/common/sendkmbizdevcommentpost', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(
