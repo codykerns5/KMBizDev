@@ -15,11 +15,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kerns Marketing | The Ultimate Marketing Menu",
-  description: "Everything you need to scale your business and brand online. Viral distribution, social growth, premium press placements, and more.",
+  title: {
+    default: "Yahoo Finance Feature — $999 | Kerns Marketing",
+    template: "%s | Kerns Marketing",
+  },
+  description:
+    "Get a professionally written contributor feature published on Yahoo Finance for $999. 5,000+ clients since 2016. Published within 30 days or refunded.",
   openGraph: {
-    title: "Kerns Marketing | The Ultimate Marketing Menu",
-    description: "Everything you need to scale your business and brand online.",
+    title: "Yahoo Finance Feature — $999 | Kerns Marketing",
+    description:
+      "Professionally written contributor feature published on Yahoo Finance. Published within 30 days or refunded.",
     type: "website",
   },
 };
@@ -32,7 +37,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Meta Pixel Code */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -48,17 +52,17 @@ export default function RootLayout({
           `}
         </Script>
         <noscript>
-          <img 
-            height="1" 
-            width="1" 
-            style={{ display: 'none' }}
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
             src="https://www.facebook.com/tr?id=708920604521252&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-black text-white`}
       >
         <div className="flex-1">{children}</div>
         <Footer />
