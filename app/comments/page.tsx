@@ -15,21 +15,14 @@ export default function CommentsSubmission() {
     setStatus('idle');
 
     try {
-      const response = await fetch('https://marketplace-api.edst.com/api/common/sendkmbizdevcommentpost', {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 15000);
+      const response = await fetch('/api/comments/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-          {
-              clientId: 20446,
-              categoryId: 107,
-              productId: 499,
-              packageName: "Kmbizdev Comment Widget Order Link",
-              remainingCustomCount: "Unlimited",
-              type: "KmbizdevComment",
-              postLink
-          }
-        ),
-      });
+        signal: controller.signal,
+        body: JSON.stringify({ postLink }),
+      }).finally(() => clearTimeout(timer));
 
       if (response.ok) {
         setStatus('success');
