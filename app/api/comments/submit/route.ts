@@ -5,10 +5,12 @@ const UPSTREAM =
 
 export async function POST(request: Request) {
   try {
-    const { postLink } = await request.json();
-    if (!postLink || typeof postLink !== 'string') {
+    const body = await request.json();
+    let postLink = typeof body?.postLink === 'string' ? body.postLink.trim() : '';
+    if (!postLink) {
       return NextResponse.json({ error: 'Post link is required' }, { status: 400 });
     }
+    if (!/^https?:\/\//i.test(postLink)) postLink = `https://${postLink}`;
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 12000);

@@ -4,6 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Send } from 'lucide-react';
 
+function normalizePostLink(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) return '';
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
 export default function CommentsSubmission() {
   const [postLink, setPostLink] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -11,6 +18,8 @@ export default function CommentsSubmission() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const link = normalizePostLink(postLink);
+    if (!link) return;
     setIsSubmitting(true);
     setStatus('idle');
 
@@ -21,7 +30,7 @@ export default function CommentsSubmission() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: controller.signal,
-        body: JSON.stringify({ postLink }),
+        body: JSON.stringify({ postLink: link }),
       }).finally(() => clearTimeout(timer));
 
       if (response.ok) {
@@ -64,7 +73,11 @@ export default function CommentsSubmission() {
           
           <div className="relative">
             <input
-              type="url"
+              type="text"
+              inputMode="url"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               value={postLink}
               onChange={(e) => setPostLink(e.target.value)}
               placeholder="https://..."
